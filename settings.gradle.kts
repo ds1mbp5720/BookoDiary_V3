@@ -22,6 +22,8 @@ dependencyResolutionManagement {
 rootProject.name = "BookDiary_V3"
 include(":app")
 include(":presentation")
-include(":domain")
 include(":data:network")
 include(":data:database")
+include(":domain:book")
+include(":domain:history")
+include(":domain:offstore")
