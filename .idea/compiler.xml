@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="BookDiary_V3.data.database" target="21" />
+      <module name="BookDiary_V3.data.network" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

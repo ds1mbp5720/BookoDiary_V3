@@ -42,8 +42,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:network"))
-    implementation(project(":data:database"))
+    implementation(project(":core:network"))
+    implementation(project(":core:database"))
+    implementation(project(":data:book"))
+    implementation(project(":data:offstore"))
     implementation(project(":domain:book"))
     implementation(project(":domain:offstore"))
     implementation(project(":domain:history"))
