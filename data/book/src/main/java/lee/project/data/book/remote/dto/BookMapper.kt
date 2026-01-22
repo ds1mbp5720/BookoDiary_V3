@@ -1,6 +1,5 @@
-package lee.project.data.book.remote.book
+package lee.project.data.book.remote.dto
 
-import lee.project.data.book.remote.dto.AladinResponse
 import lee.project.domain.book.model.BaseModel
 import lee.project.domain.book.model.BookListModel
 import lee.project.domain.book.model.BookModel

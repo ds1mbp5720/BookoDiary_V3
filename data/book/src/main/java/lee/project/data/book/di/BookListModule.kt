@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import lee.project.data.book.remote.book.BookListApi
+import lee.project.data.book.remote.BookListApi
 import lee.project.data.book.remote.datasource.BookListDataSource
 import lee.project.data.book.repository_impl.BookListRepositoryImpl
 import lee.project.domain.book.repository.BookListRepository

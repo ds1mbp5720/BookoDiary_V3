@@ -1,6 +1,7 @@
-package lee.project.data.book.remote.book
+package lee.project.data.book.remote
 
 import lee.project.data.book.remote.dto.AladinResponse
+import lee.project.data.book.remote.dto.BookData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,8 +1,8 @@
 package lee.project.data.book.remote.datasource
 
 import lee.project.data.book.remote.dto.AladinResponse
-import lee.project.data.book.remote.book.BookData
-import lee.project.data.book.remote.book.BookListApi
+import lee.project.data.book.remote.dto.BookData
+import lee.project.data.book.remote.BookListApi
 import javax.inject.Inject
 
 class BookListDataSource @Inject constructor(

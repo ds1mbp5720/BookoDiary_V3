@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import lee.project.core.network.util.safeNetworkFlow
-import lee.project.data.book.remote.book.toDomain
+import lee.project.data.book.remote.dto.toDomain
 import lee.project.data.book.remote.datasource.BookListDataSource
 import lee.project.data.book.remote.paging.ApiType
 import lee.project.data.book.remote.paging.BookListPagingSource

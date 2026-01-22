@@ -2,7 +2,7 @@ package lee.project.data.book.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import lee.project.data.book.remote.book.toDomain
+import lee.project.data.book.remote.dto.toDomain
 import lee.project.data.book.remote.datasource.BookListDataSource
 import lee.project.domain.book.model.BookModel
 import retrofit2.HttpException

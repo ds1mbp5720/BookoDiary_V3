@@ -1,4 +1,4 @@
-package lee.project.data.book.remote.book
+package lee.project.data.book.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
