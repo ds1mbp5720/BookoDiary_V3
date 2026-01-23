@@ -35,11 +35,16 @@ object NetworkModule {
             .readTimeout(15, TimeUnit.SECONDS)    // 읽기 타임아웃
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val request = originalRequest.newBuilder()
-                    .removeHeader("Authorization") // 혹시 기존에 잘못 들어간 헤더가 있다면 제거
-                    .addHeader("Authorization", "ttbkey ${BuildConfig.TTB_KEY}")
+                val originalUrl = originalRequest.url
+                val newUrl = originalUrl.newBuilder()
+                    .addQueryParameter("ttbkey", BuildConfig.TTB_KEY) // 헤더 대신 쿼리로!
+                    .addQueryParameter("output", "js")               // JSON 응답 강제
+                    .addQueryParameter("Version", "20131101")        // 최신 API 버전 고정
                     .build()
-                chain.proceed(request)
+                val newRequest = originalRequest.newBuilder()
+                    .url(newUrl)
+                    .build()
+                chain.proceed(newRequest)
             }
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY

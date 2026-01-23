@@ -1,7 +1,7 @@
 package lee.project.data.book.remote.datasource
 
 import lee.project.data.book.remote.dto.AladinResponse
-import lee.project.data.book.remote.dto.BookData
+import lee.project.data.book.remote.dto.BookDto
 import lee.project.data.book.remote.BookListApi
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class BookListDataSource @Inject constructor(
     suspend fun getBookList(
         queryType: String,
         start: Int
-    ): AladinResponse<BookData> {
+    ): AladinResponse<BookDto> {
         return bookListApi.getBookList(queryType = queryType, start = start)
     }
 
@@ -20,14 +20,14 @@ class BookListDataSource @Inject constructor(
     suspend fun searchBookList(
         query: String,
         start: Int
-    ): AladinResponse<BookData> {
+    ): AladinResponse<BookDto> {
         return bookListApi.searchBookList(query = query, start = start)
     }
 
     // 3. 도서 상세 정보 가져오기
     suspend fun getBookDetail(
         itemId: Long
-    ): AladinResponse<BookData> {
+    ): AladinResponse<BookDto> {
         return bookListApi.getBookDetail(itemId = itemId)
     }
 }

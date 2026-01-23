@@ -1,7 +1,7 @@
 package lee.project.data.book.remote
 
 import lee.project.data.book.remote.dto.AladinResponse
-import lee.project.data.book.remote.dto.BookData
+import lee.project.data.book.remote.dto.BookDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -24,7 +24,7 @@ interface BookListApi {
         @Query("SearchTarget") searchTarget: String = "Book",
         @Query("output") output: String = "js",
         @Query("Version") version: String = "20131101"
-    ): AladinResponse<BookData>
+    ): AladinResponse<BookDto>
 
     @GET("ItemSearch.aspx")
     suspend fun searchBookList(
@@ -34,7 +34,7 @@ interface BookListApi {
         @Query("start") start: Int,
         @Query("output") output: String = "js",
         @Query("Version") version: String = "20131101"
-    ): AladinResponse<BookData>
+    ): AladinResponse<BookDto>
 
     @GET("ItemLookUp.aspx")
     suspend fun getBookDetail(
@@ -44,5 +44,5 @@ interface BookListApi {
         @Query("OptResult") optResult: Array<String> = arrayOf("cardReviewImgList", "ratingInfo", "bestSellerRank"),
         @Query("output") output: String = "js",
         @Query("Version") version: String = "20131101"
-    ): AladinResponse<BookData>
+    ): AladinResponse<BookDto>
 }

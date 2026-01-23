@@ -6,7 +6,7 @@ import lee.project.domain.book.model.BookModel
 import lee.project.domain.book.model.RatingInfoModel
 import lee.project.domain.book.model.SubInfoModel
 
-fun AladinResponse<BookData>.toDomain(): BookListModel {
+fun AladinResponse<BookDto>.toDomain(): BookListModel {
     return BookListModel(
         baseModel = BaseModel(
             title = this.title,
@@ -25,7 +25,7 @@ fun AladinResponse<BookData>.toDomain(): BookListModel {
     )
 }
 
-fun BookData.toDomain(): BookModel {
+fun BookDto.toDomain(): BookModel {
     return BookModel(
         itemId = this.itemId,
         title = this.title,

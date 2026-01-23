@@ -2,6 +2,8 @@ package lee.project.data.book.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import lee.project.core.network.error.ErrorMapper
+import lee.project.core.network.error.NetworkError
 import lee.project.data.book.remote.dto.toDomain
 import lee.project.data.book.remote.datasource.BookListDataSource
 import lee.project.domain.book.model.BookModel
@@ -15,7 +17,8 @@ enum class ApiType{
 class BookListPagingSource(
     private val query: String = "",
     private val bookListDataSource: BookListDataSource,
-    private val apiType: ApiType
+    private val apiType: ApiType,
+    private val errorMapper: ErrorMapper
 ) : PagingSource<Int, BookModel>() {
     override fun getRefreshKey(state: PagingState<Int, BookModel>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -24,38 +27,33 @@ class BookListPagingSource(
         }
     }
 
-    //검색, 일반 책 리스트 두 종류 Case 분류를 통해 load 함수 안에 구현
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BookModel> {
+        val currentPage = params.key ?: 1
+
         return try {
-            val currentPage = params.key ?: 1
-            val bookList = if (apiType == ApiType.SEARCH) {
-                bookListDataSource.searchBookList(
-                    query = query,
-                    start = currentPage
-                ).toDomain()
+            val response = if (apiType == ApiType.SEARCH) {
+                bookListDataSource.searchBookList(query = query, start = currentPage)
             } else {
-                bookListDataSource.getBookList(
-                    queryType = query,
-                    start = currentPage
-                ).toDomain()
+                bookListDataSource.getBookList(queryType = query, start = currentPage)
             }
-            if (bookList.bookList.isNotEmpty()) {
-                LoadResult.Page(
-                    data = bookList.bookList,
-                    prevKey = if (currentPage == 1) null else currentPage - 1,
-                    nextKey = if (bookList.bookList.isEmpty()) null else currentPage + 1
-                )
-            } else {
-                LoadResult.Page(
-                    data = emptyList(),
-                    prevKey = null,
-                    nextKey = null
+
+            // 알라딘 비즈니스 에러 체크 (200 OK 내부에 errorCode가 있는 경우)
+            if (response.errorCode != null) {
+                return LoadResult.Error(
+                    NetworkError.BadRequest(response.errorMessage ?: "데이터 오류")
                 )
             }
-        } catch (exception: IOException) {
-            return LoadResult.Error(exception)
-        } catch (exception: HttpException) {
-            return LoadResult.Error(exception)
+
+            val domainModel = response.toDomain()
+            val books = domainModel.bookList
+
+            LoadResult.Page(
+                data = books,
+                prevKey = if (currentPage == 1) null else currentPage - 1,
+                nextKey = if (books.isEmpty()) null else currentPage + 1
+            )
+        } catch (e: Exception) {
+            LoadResult.Error(errorMapper.map(e))
         }
     }
 }

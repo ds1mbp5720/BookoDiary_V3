@@ -42,11 +42,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.paging.common)
-
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
@@ -59,14 +55,30 @@ dependencies {
     // --- Moshi (JSON Converter) ---
     implementation(libs.squareup.retrofit.converter.moshi)
     implementation(libs.squareup.moshi)
+    // --- Room ---
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     // --- Hilt ---
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
     // --- Test ---
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
     testImplementation(libs.squareup.retrofit)
     testImplementation(libs.squareup.mockserver)
     testImplementation(libs.squareup.moshi)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.room.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.truth)
+
+
 }
