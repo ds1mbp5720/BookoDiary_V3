@@ -12,6 +12,8 @@ kotlin {
     }
 }
 dependencies {
+    implementation(project(":domain:shared"))
+
     implementation(libs.kotlin.std.lib)
     implementation(libs.kotlin.coroutine)
     implementation(libs.inject)

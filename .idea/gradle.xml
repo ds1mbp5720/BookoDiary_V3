@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/domain/book" />
             <option value="$PROJECT_DIR$/domain/history" />
             <option value="$PROJECT_DIR$/domain/offstore" />
+            <option value="$PROJECT_DIR$/domain/shared" />
             <option value="$PROJECT_DIR$/presentation" />
           </set>
         </option>

@@ -12,16 +12,7 @@ kotlin {
     }
 }
 dependencies {
-    implementation(project(":domain:shared"))
-
     implementation(libs.kotlin.std.lib)
     implementation(libs.kotlin.coroutine)
     implementation(libs.inject)
-    implementation(libs.androidx.paging.common)
-
-    // ---Test---
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.truth)
 }
