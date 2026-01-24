@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">BookDiary_v2</string>
+    <string name="str_home">홈</string>
+    <string name="str_search">검색</string>
+    <string name="str_record">기록</string>
+    <string name="str_app_info">앱 정보</string>
+    <string name="str_back">BACK</string>
+
+    <string name="str_detail_title">상세 정보</string>
+    <string name="str_category">카테고리</string>
+    <string name="str_publisher">출판사</string>
+    <string name="str_rating_title">리뷰</string>
+    <string name="str_cart_review">카드 리뷰</string>
+    <string name="str_bestseller_rank">주간베스트셀러 순위</string>
+    <string name="str_pub_date">출간일</string>
+    <string name="str_page">쪽수</string>
+    <string name="str_see_more">더보기</string>
+    <string name="str_see_less">접기</string>
+    <string name="str_stock_title">재고 상태</string>
+    <string name="str_stock">재고 있음</string>
+    <string name="str_no_stock">재고 있음</string>
+    <string name="str_no_title">제목 없음</string>
+    <string name="str_no_author">저자 미확인</string>
+    <string name="str_review_cnt">리뷰 작성수</string>
+    <string name="str_new_all_title">신간 전체</string>
+    <string name="str_new_special_title">주목할 만한 신간</string>
+    <string name="str_bestseller_title">베스트셀러</string>
+    <string name="str_bolg_best_title">블로거 베스트셀러(국내 도서)</string>
+    <string name="str_no_page">쪽수정보 없음</string>
+    <string name="str_no_price">가격정보 없음</string>
+    <string name="str_no_pub_date">출간일 정보가 없습니다.</string>
+    <string name="str_no_publisher">출판사 정보가 없습니다.</string>
+    <string name="str_no_bestseller">베스트셀러 정보가 없습니다.</string>
+    <string name="str_no_category">카테고리 정보가 없습니다.</string>
+    <string name="str_no_detail">상세정보가 없습니다.</string>
+    <string name="str_record_title">독후감</string>
+
+    <string name="str_btn_link">자세히 보기</string>
+    <string name="str_btn_shop_inventory">재고 정보</string>
+    <string name="str_btn_record">서랍에 저장</string>
+    <string name="str_btn_record_title">책 기록 작성</string>
+    <string name="str_btn_record_detail">독후감 내용을 작성해주세요.</string>
+    <string name="str_btn_wish">찜하기</string>
+    <string name="str_add_record">서랍에 추가되었습니다!</string>
+    <string name="str_add_wish">찜목록에 추가되었습니다!</string>
+    <string name="str_dialog_offstore_title">책 보유 매장 정보</string>
+    <string name="str_search_hint">검색어 입력</string>
+    <string name="str_search_record">검색 기록</string>
+    <string name="str_no_result">검색 결과가 없습니다.</string>
+    <string name="str_no_search_record">검색 기록이 없습니다.</string>
+    <string name="str_no_off_store_result">해당 책 보유 매장이 없습니다.</string>
+
+    <string name="str_record_date_hint">독서 기간 (미입력시 오늘로 입력됩니다.)</string>
+    <string name="str_start_date">시작 날짜</string>
+    <string name="str_end_date">종료 날짜</string>
+    <string name="str_home_record_info_title">기록한 책</string>
+    <string name="str_change_record">책 기록 보기</string>
+    <string name="str_change_wish">찜 목록 보기</string>
+
+    <string name="str_dialog_exit_app">앱을 종료 하시겠습니까?</string>
+
+    <string name="str_cancel">취소</string>
+    <string name="str_confirm">확인</string>
+    <string name="str_next">다음</string>
+    <string name="str_prev">이전</string>
+    <string name="str_complete">완료</string>
+
+    <string name="str_opensource_license">오픈소스 라이센스</string>
+    <string name="str_app_manual">앱 사용 방법</string>
+    <string name="str_app_version">앱 버전 %s</string>
+    <string name="str_app_setting_title">환경설정</string>
+
+    <string name="str_manual_desc1">첫번째 설명 스크립트</string>
+    <string name="str_manual_desc2">두번째 설명 스크립트</string>
+    <string name="str_manual_desc3">세번째 설명 스크립트</string>
+</resources>
