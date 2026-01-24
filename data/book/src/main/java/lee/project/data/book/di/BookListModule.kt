@@ -1,7 +1,6 @@
 package lee.project.data.book.di
 
 import android.content.Context
-import androidx.room.RoomDatabase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,9 @@ import lee.project.data.book.local.dao.BookDao
 import lee.project.data.book.local.database.BookDatabase
 import lee.project.data.book.remote.BookListApi
 import lee.project.data.book.remote.datasource.BookListDataSource
+import lee.project.data.book.repository_impl.BookLibraryRepositoryImpl
 import lee.project.data.book.repository_impl.BookListRepositoryImpl
+import lee.project.domain.book.repository.BookLibraryRepository
 import lee.project.domain.book.repository.BookListRepository
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -60,6 +61,12 @@ abstract class BookListModule {
     @Binds
     @Singleton
     abstract fun bindBookListRepository(
-        restaurantRepositoryImpl: BookListRepositoryImpl
+        bookRepositoryImpl: BookListRepositoryImpl
     ): BookListRepository
+
+    @Binds
+    @Singleton
+    abstract fun binBookLibraryRepository(
+        bookLibraryRepositoryImpl: BookLibraryRepositoryImpl
+    ): BookLibraryRepository
 }

@@ -25,6 +25,12 @@ android {
             )
         }
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -44,6 +50,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.paging.common)
     implementation(libs.hilt.android)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.hilt.compiler)
 
     implementation(libs.gson)
@@ -79,6 +87,5 @@ dependencies {
     androidTestImplementation(libs.androidx.room.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.truth)
-
-
+    androidTestImplementation(libs.turbine)
 }
