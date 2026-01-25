@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain:shared"))
     implementation(project(":domain:book"))
     implementation(project(":domain:offstore"))
     implementation(project(":domain:history"))

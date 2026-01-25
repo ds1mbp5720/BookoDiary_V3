@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import lee.project.domain.book.model.MyBookModel
 import lee.project.presentation.component.BookDiarySurface
@@ -83,5 +84,25 @@ fun MyBookRowItem(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MyBookRowItemPreview() {
+    BookDiaryTheme {
+        MyBookRowItem(
+            myBook = MyBookModel(
+                itemId = "1",
+                title = "테스트 내 책 제목",
+                author = "작자미상",
+                imageUrl = "",
+                period = "2024.01.01 ~ 2024.01.10",
+                rating = 4.5f,
+                link = "",
+                myReview = "테스트 리뷰"
+            ),
+            onMyBookClick = {}
+        )
     }
 }

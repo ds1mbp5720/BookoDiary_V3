@@ -1,6 +1,9 @@
 package lee.project.presentation.util
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.icu.text.DecimalFormat
 import android.icu.text.DecimalFormatSymbols
 import androidx.compose.material.icons.Icons
@@ -47,4 +50,10 @@ fun String.addCommaWon(): String{
     return if(this.isNotBlank())
         DecimalFormat("#,###").apply { decimalFormatSymbols = DecimalFormatSymbols(Locale.KOREA) }.format(this.toLong()) + "원"
     else ""
+}
+
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

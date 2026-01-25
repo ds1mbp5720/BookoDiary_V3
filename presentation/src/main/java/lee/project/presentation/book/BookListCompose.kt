@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -110,6 +111,41 @@ fun BookItemList(
                 )
                 top.linkTo(author.bottom, margin = 8.dp)
             }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BookItemListPreview() {
+    BookDiaryTheme {
+        BookItemList(
+            book = BookModel(
+                itemId = "12345",
+                title = "테스트 책 제목입니다. 제목이 길어지면 어떻게 보일까요?",
+                author = "홍길동 (지은이)",
+                cover = "",
+                priceSales = "15000",
+                link = null,
+                pubDate = null,
+                description = null,
+                isbn = null,
+                isbn13 = null,
+                priceStandard = null,
+                mallType = null,
+                stockStatus = null,
+                mileage = null,
+                categoryId = null,
+                categoryName = null,
+                publisher = "테스트 출판사",
+                salesPoint = null,
+                adult = false,
+                fixedPrice = true,
+                customerReviewRank = "9",
+                subInfo = null
+            ),
+            onBookClick = {},
+            showDivider = true
         )
     }
 }

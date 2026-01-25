@@ -13,5 +13,5 @@ data class MyBookEntity(
     val link: String?, // 상품 링크 Url
     val myReview: String?, // 독후감
     val period: String, // 독서기간
-    val rating: Int //todo 평점 형 고려
+    val rating: Float // 평점
 )

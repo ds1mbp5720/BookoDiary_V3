@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -61,7 +62,6 @@ fun BookRowContent(
     books: LazyPagingItems<BookModel>,
     onBookClick: (Long) -> Unit,
     onListClick: (String) -> Unit,
-    viewModel: HomeViewModel = viewModel(),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     index: Int = 0
 ) {
@@ -105,22 +105,18 @@ fun BookRowContent(
                 onClick = {
                     when (contentTitle) {
                         HomeListType.ItemNewAll -> {
-                            viewModel.getSingleCategoryBookList("ItemNewAll", 100)
                             onListClick(HomeListType.ItemNewAll.toString())
                         }
 
                         HomeListType.ItemNewSpecial -> {
-                            viewModel.getSingleCategoryBookList("ItemNewSpecial", 100)
                             onListClick(HomeListType.ItemNewSpecial.toString())
                         }
 
                         HomeListType.Bestseller -> {
-                            viewModel.getSingleCategoryBookList("Bestseller", 100)
                             onListClick(HomeListType.Bestseller.toString())
                         }
 
                         HomeListType.BlogBest -> {
-                            viewModel.getSingleCategoryBookList("BlogBest", 100)
                             onListClick(HomeListType.BlogBest.toString())
                         }
                     }
@@ -276,4 +272,42 @@ fun BookCoverImage(
         modifier = modifier,
         imageModifier = Modifier.fillMaxSize()
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BookItemRowPreview() {
+    BookDiaryTheme {
+        BookItemRow(
+            book = BookModel(
+                itemId = "123",
+                title = "테스트 책 제목",
+                author = "테스트 작가",
+                cover = "",
+                link = null,
+                pubDate = null,
+                description = null,
+                isbn = null,
+                isbn13 = null,
+                priceSales = "12000",
+                priceStandard = null,
+                mallType = null,
+                stockStatus = null,
+                mileage = null,
+                categoryId = null,
+                categoryName = null,
+                publisher = null,
+                salesPoint = null,
+                adult = null,
+                fixedPrice = null,
+                customerReviewRank = null,
+                subInfo = null
+            ),
+            onBookClick = {},
+            index = 0,
+            gradient = BookDiaryTheme.colors.gradient6_1,
+            gradientWidth = 1000f,
+            scroll = 0
+        )
+    }
 }

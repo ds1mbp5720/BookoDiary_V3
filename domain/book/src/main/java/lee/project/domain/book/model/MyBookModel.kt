@@ -8,5 +8,5 @@ data class MyBookModel(
     val link: String?, // 상품 링크 Url
     val myReview: String?, // 독후감
     val period: String, // 독서 기간
-    val rating: Int // 내 평점
+    val rating: Float // 내 평점
 )

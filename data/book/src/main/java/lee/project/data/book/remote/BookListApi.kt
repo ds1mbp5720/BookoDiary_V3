@@ -21,9 +21,7 @@ interface BookListApi {
         @Query("QueryType") queryType: String, // 리스트 종류
         @Query("start") start: Int,
         @Query("Cover") cover: String = "MidBig",
-        @Query("SearchTarget") searchTarget: String = "Book",
-        @Query("output") output: String = "js",
-        @Query("Version") version: String = "20131101"
+        @Query("SearchTarget") searchTarget: String = "Book"
     ): AladinResponse<BookDto>
 
     @GET("ItemSearch.aspx")
@@ -31,9 +29,7 @@ interface BookListApi {
         @Query("Query") query: String, // 검색어
         @Query("QueryType") queryType: String = "Keyword ", // Keyword : 제목 + 저자, Publisher : 출판사
         @Query("SearchTarget") searchTarget: String = "All",
-        @Query("start") start: Int,
-        @Query("output") output: String = "js",
-        @Query("Version") version: String = "20131101"
+        @Query("start") start: Int
     ): AladinResponse<BookDto>
 
     @GET("ItemLookUp.aspx")
@@ -41,8 +37,6 @@ interface BookListApi {
         @Query("ItemId") itemId: Long,
         @Query("itemIdType") itemIdType: String = "ItemId",
         @Query("Cover") cover: String = "Big",
-        @Query("OptResult") optResult: Array<String> = arrayOf("cardReviewImgList", "ratingInfo", "bestSellerRank"),
-        @Query("output") output: String = "js",
-        @Query("Version") version: String = "20131101"
+        @Query("OptResult") optResult: Array<String> = arrayOf("cardReviewImgList", "ratingInfo", "bestSellerRank")
     ): AladinResponse<BookDto>
 }
