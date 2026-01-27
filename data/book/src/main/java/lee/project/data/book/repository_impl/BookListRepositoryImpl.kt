@@ -55,10 +55,7 @@ class BookListRepositoryImpl @Inject constructor(
     // Paging 부분 개선
     override fun getBookListPaging(queryType: String, size: Int): Flow<PagingData<BookModel>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = size,
-                enablePlaceholders = false
-            ),
+            config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
                 BookListPagingSource(
                     query = queryType,
@@ -72,10 +69,7 @@ class BookListRepositoryImpl @Inject constructor(
 
     override fun getSearchBookListPaging(query: String, size: Int): Flow<PagingData<BookModel>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = size,
-                enablePlaceholders = false
-            ),
+            config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
                 BookListPagingSource(
                     query = query,

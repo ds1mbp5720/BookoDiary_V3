@@ -1,84 +1,47 @@
 package lee.project.data.book.remote.dto
 
 import com.google.gson.annotations.SerializedName
-
+import com.squareup.moshi.Json
 
 data class BookDto(
-    @SerializedName("itemId")
-    val itemId: String,
-    @SerializedName("title")
-    val title: String, // 상품명
-    @SerializedName("link")
-    val link: String = "", // 상품 링크 Url
-    @SerializedName("author")
-    val author: String = "", // 저자
-    @SerializedName("pubDate")
-    val pubDate: String = "", // 출간일(출시일)
-    @SerializedName("description")
-    val description: String = "", // 상품설명(요약)
-    @SerializedName("isbn")
-    val isbn: String = "", //도서번호
-    @SerializedName("isbn13")
-    val isbn13: String = "", //도서번호 13자리
-    @SerializedName("priceSales")
-    val priceSales: String = "", //판매가
-    @SerializedName("priceStandard")
-    val priceStandard: String = "", //정가
-    @SerializedName("mallType")
-    val mallType: String = "", //상품 mall 타입(국내도서: BOOK, 외서:FOREIGN 전자책: EBOOK)
-    @SerializedName("stockStatus")
-    val stockStatus: String = "", //재고상태 // 재고 있을경우 ==  null, else == "품절", "절판"
-    @SerializedName("mileage")
-    val mileage: String = "", //마일리지
-    @SerializedName("cover")
-    val cover: String = "", //커버(표지)
-    @SerializedName("categoryId")
-    val categoryId: String = "", //
-    @SerializedName("categoryName")
-    val categoryName: String = "",
-    @SerializedName("publisher")
-    val publisher: String = "",
-    @SerializedName("salesPoint")
-    val salesPoint: String = "", // 판매지수
-    @SerializedName("adult")
-    val adult: Boolean = false, // 성인 등급 여부
-    @SerializedName("fixedPrice")
-    val fixedPrice: Boolean = false, //정가제 여부
-    @SerializedName("customerReviewRank")
-    val customerReviewRank: String = "", //회원 리뷰 평점
-    @SerializedName("subInfo")
-    val subInfo: SubInfo? = null
+    @SerializedName("itemId") @Json(name = "itemId") val itemId: String = "",
+    @SerializedName("title") @Json(name = "title") val title: String = "",
+    @SerializedName("link") @Json(name = "link") val link: String = "",
+    @SerializedName("author") @Json(name = "author") val author: String = "",
+    @SerializedName("pubDate") @Json(name = "pubDate") val pubDate: String = "",
+    @SerializedName("description") @Json(name = "description") val description: String = "",
+    @SerializedName("isbn") @Json(name = "isbn") val isbn: String = "",
+    @SerializedName("isbn13") @Json(name = "isbn13") val isbn13: String = "",
+    @SerializedName("priceSales") @Json(name = "priceSales") val priceSales: String = "",
+    @SerializedName("priceStandard") @Json(name = "priceStandard") val priceStandard: String = "",
+    @SerializedName("mallType") @Json(name = "mallType") val mallType: String = "",
+    @SerializedName("stockStatus") @Json(name = "stockStatus") val stockStatus: String? = "",
+    @SerializedName("mileage") @Json(name = "mileage") val mileage: String = "",
+    @SerializedName("cover") @Json(name = "cover") val cover: String = "",
+    @SerializedName("categoryId") @Json(name = "categoryId") val categoryId: String = "",
+    @SerializedName("categoryName") @Json(name = "categoryName") val categoryName: String = "",
+    @SerializedName("publisher") @Json(name = "publisher") val publisher: String = "",
+    @SerializedName("salesPoint") @Json(name = "salesPoint") val salesPoint: String = "",
+    @SerializedName("adult") @Json(name = "adult") val adult: Boolean = false,
+    @SerializedName("fixedPrice") @Json(name = "fixedPrice") val fixedPrice: Boolean = false,
+    @SerializedName("customerReviewRank") @Json(name = "customerReviewRank") val customerReviewRank: String = "",
+    @SerializedName("subInfo") @Json(name = "subInfo") val subInfo: SubInfo? = null
 )
 
-
-/**
- * BookData 의 추가 상세 정보
- * 일부 정보는 알라딘 측에 추가 요청 및 인증이 필요하여 사용 가능 변수만 추가 상태
- */
 data class SubInfo(
-    @SerializedName("subTitle")
-    val subTitle: String = "", //부제
-    @SerializedName("originalTitle")
-    val originalTitle: String = "", //원제
-    @SerializedName("itemPage")
-    val itemPage: String = "", //상품 쪽수
-    @SerializedName("subbarcode")
-    val subbarcode: String = "", //부가기호
-    @SerializedName("cardReviewImgList")
-    val cardReviewImgList : List<String>, //카드리뷰 이미지 경로
-    @SerializedName("ratingInfo")
-    val ratingInfo: RatingInfo? = null, //상품의 리뷰, 평점관련 개수
-    @SerializedName("bestSellerRank")
-    val bestSellerRank: String = "", //베스트셀러 순위
+    @SerializedName("subTitle") @Json(name = "subTitle") val subTitle: String = "",
+    @SerializedName("originalTitle") @Json(name = "originalTitle") val originalTitle: String = "",
+    @SerializedName("itemPage") @Json(name = "itemPage") val itemPage: String = "",
+    @SerializedName("subbarcode") @Json(name = "subbarcode") val subbarcode: String = "",
+    @SerializedName("cardReviewImgList") @Json(name = "cardReviewImgList")
+    val cardReviewImgList: List<String>? = emptyList(), // Nullable 및 기본값 추가하여 누락 시 에러 방지
+    @SerializedName("ratingInfo") @Json(name = "ratingInfo") val ratingInfo: RatingInfo? = null,
+    @SerializedName("bestSellerRank") @Json(name = "bestSellerRank") val bestSellerRank: String = ""
 )
 
 data class RatingInfo(
-    @SerializedName("ratingScore")
-    val ratingScore: String = "",
-    @SerializedName("ratingCount")
-    val ratingCount: String = "",
-    @SerializedName("commentReviewCount")
-    val commentReviewCount: String = "",
-    @SerializedName("myReviewCount")
-    val myReviewCount: String = "",
+    @SerializedName("ratingScore") @Json(name = "ratingScore") val ratingScore: String = "",
+    @SerializedName("ratingCount") @Json(name = "ratingCount") val ratingCount: String = "",
+    @SerializedName("commentReviewCount") @Json(name = "commentReviewCount") val commentReviewCount: String = "",
+    @SerializedName("myReviewCount") @Json(name = "myReviewCount") val myReviewCount: String = "",
 )

@@ -2,12 +2,10 @@ package lee.project.presentation.home
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,10 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -43,22 +39,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import lee.project.domain.book.model.BookModel
 import lee.project.domain.book.model.MyBookModel
 import lee.project.presentation.R
-import lee.project.presentation.book.BookItemList
 import lee.project.presentation.book.BookRowContent
 import lee.project.presentation.book.MyBookRowItem
-import lee.project.presentation.component.BasicUpButton
 import lee.project.presentation.component.BookDiaryDivider
 import lee.project.presentation.component.BookDiaryScaffold
 import lee.project.presentation.component.BookDiarySurface
@@ -67,7 +63,6 @@ import lee.project.presentation.navigation.BookDiaryBottomBar
 import lee.project.presentation.navigation.MainSections
 import lee.project.presentation.theme.BookDiaryTheme
 import lee.project.presentation.util.mirroringIcon
-import androidx.core.net.toUri
 
 @Composable
 fun Home(
@@ -105,6 +100,10 @@ fun Home(
     ) { paddingValues ->
         HomeScreenContent(
             state = state,
+            itemNewAllFlow = viewModel.bookListDataItemNewAll,
+            itemNewSpecialFlow = viewModel.bookListDataItemNewSpecial,
+            bestsellerFlow = viewModel.bookListDataBestseller,
+            blogBestFlow = viewModel.bookListDataBlogBest,
             onEvent = viewModel::onEvent,
             onBookClick = onBookClick,
             onMyBookClick = onMyBookClick,
@@ -132,17 +131,20 @@ fun Home(
 @Composable
 private fun HomeScreenContent(
     state: HomeScreenState,
+    itemNewAllFlow: Flow<PagingData<BookModel>>,
+    itemNewSpecialFlow: Flow<PagingData<BookModel>>,
+    bestsellerFlow: Flow<PagingData<BookModel>>,
+    blogBestFlow: Flow<PagingData<BookModel>>,
     onEvent: (HomeScreenEvent) -> Unit,
     onBookClick: (Long) -> Unit,
     onMyBookClick: (String) -> Unit,
     onListClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // 최상단에서 페이징 아이템 수집
-    val itemNewAll = state.bookListDataItemNewAll.collectAsLazyPagingItems()
-    val itemNewSpecial = state.bookListDataItemNewSpecial.collectAsLazyPagingItems()
-    val bestseller = state.bookListDataBestseller.collectAsLazyPagingItems()
-    val blogBest = state.bookListDataBlogBest.collectAsLazyPagingItems()
+    val itemNewAll = itemNewAllFlow.collectAsLazyPagingItems()
+    val itemNewSpecial = itemNewSpecialFlow.collectAsLazyPagingItems()
+    val bestseller = bestsellerFlow.collectAsLazyPagingItems()
+    val blogBest = blogBestFlow.collectAsLazyPagingItems()
 
     BookDiarySurface(modifier = modifier.fillMaxSize()) {
         LazyColumn {
@@ -157,7 +159,6 @@ private fun HomeScreenContent(
                     onMyBookClick = onMyBookClick
                 )
             }
-            // 각 섹션을 독립적인 item으로 분리하여 레이아웃 안정성 확보
             item {
                 BookRowSection(HomeListType.ItemNewAll, itemNewAll, onBookClick, onListClick, onEvent)
                 BookDiaryDivider(thickness = 2.dp)
@@ -247,8 +248,10 @@ fun AladinLogo(url: String = "https://image.aladin.co.kr/img/header/2011/aladin_
             .padding(horizontal = 24.dp, vertical = 12.dp)
             .fillMaxWidth()
             .clickable {
-                val intent = Intent(Intent.ACTION_VIEW,
-                    "https://www.aladin.co.kr/home/welcome.aspx".toUri())
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    "https://www.aladin.co.kr/home/welcome.aspx".toUri()
+                )
                 context.startActivity(intent)
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -291,10 +294,14 @@ private fun HomeScreenPreview() {
                         period = "2024.01.01 ~ 2024.01.02",
                         rating = 4.5f,
                         link = null,
-                        myReview = null
+                        myReview = null,
                     )
                 )
             ),
+            itemNewAllFlow = flowOf(PagingData.empty()),
+            itemNewSpecialFlow = flowOf(PagingData.empty()),
+            bestsellerFlow = flowOf(PagingData.empty()),
+            blogBestFlow = flowOf(PagingData.empty()),
             onEvent = {},
             onBookClick = {},
             onMyBookClick = {},

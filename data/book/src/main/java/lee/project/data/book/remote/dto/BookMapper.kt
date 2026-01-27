@@ -58,7 +58,7 @@ fun SubInfo.toDomain(): SubInfoModel {
         originalTitle = this.originalTitle,
         itemPage = this.itemPage,
         subbarcode = this.subbarcode,
-        cardReviewImgList = this.cardReviewImgList,
+        cardReviewImgList = this.cardReviewImgList ?: listOf(""),
         ratingInfo = this.ratingInfo?.toDomain(),
         bestSellerRank = this.bestSellerRank
     )

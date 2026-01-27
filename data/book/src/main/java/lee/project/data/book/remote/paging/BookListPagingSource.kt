@@ -7,10 +7,8 @@ import lee.project.core.network.error.NetworkError
 import lee.project.data.book.remote.dto.toDomain
 import lee.project.data.book.remote.datasource.BookListDataSource
 import lee.project.domain.book.model.BookModel
-import retrofit2.HttpException
-import java.io.IOException
 
-enum class ApiType{
+enum class ApiType {
     SEARCH, NORMAL
 }
 
@@ -37,21 +35,29 @@ class BookListPagingSource(
                 bookListDataSource.getBookList(queryType = query, start = currentPage)
             }
 
-            // 알라딘 비즈니스 에러 체크 (200 OK 내부에 errorCode가 있는 경우)
             if (response.errorCode != null) {
                 return LoadResult.Error(
                     NetworkError.BadRequest(response.errorMessage ?: "데이터 오류")
                 )
             }
-
             val domainModel = response.toDomain()
             val books = domainModel.bookList
 
-            LoadResult.Page(
-                data = books,
-                prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (books.isEmpty()) null else currentPage + 1
-            )
+            if (books.isNotEmpty()) {
+                LoadResult.Page(
+                    data = books,
+                    prevKey = if (currentPage == 1) null else currentPage - 1,
+                    // 데이터가 비어있거나, 요청한 사이즈보다 적게 왔다면 다음 페이지 없음
+                    nextKey = if (books.isEmpty()) null else currentPage + 1
+                )
+            } else {
+                LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = null
+                )
+            }
+
         } catch (e: Exception) {
             LoadResult.Error(errorMapper.map(e))
         }

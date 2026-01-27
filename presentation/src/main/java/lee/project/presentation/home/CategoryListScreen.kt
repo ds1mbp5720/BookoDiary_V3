@@ -39,7 +39,7 @@ fun SingleCategoryListScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val books = state.singleCategoryBookList.collectAsLazyPagingItems()
+    val books = viewModel.singleCategoryBookList.collectAsLazyPagingItems()
 
     SingleCategoryListContent(
         modifier = modifier,

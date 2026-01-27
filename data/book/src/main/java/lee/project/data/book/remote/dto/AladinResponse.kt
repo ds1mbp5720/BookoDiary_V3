@@ -13,20 +13,27 @@ interface AladinBaseResponse {
  * 알라딘 API 공통 응답 포맷
  */
 data class AladinResponse<T>(
-    @SerializedName("title") val title: String = "",
-    @SerializedName("link") val link: String = "",
-    @SerializedName("logo") val logo: String = "",
-    @SerializedName("pubDate") val pubDate: String = "",
-    @SerializedName("totalResults") val totalResults: Int = 0,
-    @SerializedName("startIndex") val startIndex: Int = 0,
-    @SerializedName("itemsPerPage") val itemsPerPage: Int = 0,
-    @SerializedName("query") val query: String = "",
-    @SerializedName("version") val version: String = "",
-    @SerializedName("searchCategoryId") val searchCategoryId: Int? = null,
-    @SerializedName("searchCategoryName") val searchCategoryName: String = "",
+    @SerializedName("title") @Json(name = "title") val title: String = "",
+    @SerializedName("link") @Json(name = "link") val link: String = "",
+    @SerializedName("logo") @Json(name = "logo") val logo: String = "",
+    @SerializedName("pubDate") @Json(name = "pubDate") val pubDate: String = "",
+    @SerializedName("totalResults") @Json(name = "totalResults") val totalResults: Int = 0,
+    @SerializedName("startIndex") @Json(name = "startIndex") val startIndex: Int = 0,
+    @SerializedName("itemsPerPage") @Json(name = "itemsPerPage") val itemsPerPage: Int = 0,
+    @SerializedName("query") @Json(name = "query") val query: String = "",
+    @SerializedName("version") @Json(name = "version") val version: String = "",
+    @SerializedName("searchCategoryId") @Json(name = "searchCategoryId") val searchCategoryId: Int? = null,
+    @SerializedName("searchCategoryName") @Json(name = "searchCategoryName") val searchCategoryName: String = "",
 
     @SerializedName("item")
-    val items: List<T> = emptyList(), // 데이터 리스트를 제네릭으로 포함
-    @Json(name = "errorCode") override val errorCode: Int? = null,
-    @Json(name = "errorMessage") override val errorMessage: String? = null
+    @Json(name = "item")
+    val items: List<T> = emptyList(),
+
+    @SerializedName("errorCode")
+    @Json(name = "errorCode")
+    override val errorCode: Int? = null,
+
+    @SerializedName("errorMessage")
+    @Json(name = "errorMessage")
+    override val errorMessage: String? = null
 ) : AladinBaseResponse
