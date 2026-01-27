@@ -10,7 +10,7 @@
     <string name="str_category">카테고리</string>
     <string name="str_publisher">출판사</string>
     <string name="str_rating_title">리뷰</string>
-    <string name="str_cart_review">카드 리뷰</string>
+    <string name="str_card_review">카드 리뷰</string>
     <string name="str_bestseller_rank">주간베스트셀러 순위</string>
     <string name="str_pub_date">출간일</string>
     <string name="str_page">쪽수</string>

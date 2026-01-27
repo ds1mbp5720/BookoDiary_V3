@@ -38,7 +38,6 @@ fun SingleCategoryListScreen(
     upPress: () -> Unit,
     viewModel: HomeScreenViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val books = viewModel.singleCategoryBookList.collectAsLazyPagingItems()
 
     SingleCategoryListContent(

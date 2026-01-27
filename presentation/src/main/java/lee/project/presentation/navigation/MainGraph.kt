@@ -59,6 +59,7 @@ import lee.project.presentation.component.BookDiarySurface
 import lee.project.presentation.home.Home
 import lee.project.presentation.home.HomeListType
 import lee.project.presentation.home.SingleCategoryListScreen
+import lee.project.presentation.detail.BookDetail
 import lee.project.presentation.theme.BookDiaryTheme
 import java.util.Locale
 
@@ -157,7 +158,7 @@ fun NavGraphBuilder.bookDiaryNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val bookId = arguments.getLong(MainDestinations.BOOK_ID_KEY)
-        //BookDetail(bookId = bookId, upPress = upPress, bookDetailViewModel = bookDetailViewModel)
+        BookDetail(bookId = bookId, upPress = upPress)
     }
     // 책 기록 상세보기 화면
     composable(

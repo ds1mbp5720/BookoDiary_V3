@@ -81,7 +81,7 @@ fun Home(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is HomeScreenEffect.ShowError -> {
+                is HomeUiEffect.ShowError -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -130,12 +130,12 @@ fun Home(
 
 @Composable
 private fun HomeScreenContent(
-    state: HomeScreenState,
+    state: HomeUiState,
     itemNewAllFlow: Flow<PagingData<BookModel>>,
     itemNewSpecialFlow: Flow<PagingData<BookModel>>,
     bestsellerFlow: Flow<PagingData<BookModel>>,
     blogBestFlow: Flow<PagingData<BookModel>>,
-    onEvent: (HomeScreenEvent) -> Unit,
+    onEvent: (HomeUiEvent) -> Unit,
     onBookClick: (Long) -> Unit,
     onMyBookClick: (String) -> Unit,
     onListClick: (String) -> Unit,
@@ -227,14 +227,14 @@ private fun BookRowSection(
     books: LazyPagingItems<BookModel>,
     onBookClick: (Long) -> Unit,
     onListClick: (String) -> Unit,
-    onEvent: (HomeScreenEvent) -> Unit
+    onEvent: (HomeUiEvent) -> Unit
 ) {
     BookRowContent(
         contentTitle = type,
         books = books,
         onBookClick = onBookClick,
         onListClick = {
-            onEvent(HomeScreenEvent.LoadCategoryPaging(type.name))
+            onEvent(HomeUiEvent.LoadCategoryPaging(type.name))
             onListClick(type.name)
         }
     )
@@ -284,7 +284,7 @@ fun AladinLogo(url: String = "https://image.aladin.co.kr/img/header/2011/aladin_
 private fun HomeScreenPreview() {
     BookDiaryTheme {
         HomeScreenContent(
-            state = HomeScreenState(
+            state = HomeUiState(
                 myBookList = listOf(
                     MyBookModel(
                         itemId = "1",

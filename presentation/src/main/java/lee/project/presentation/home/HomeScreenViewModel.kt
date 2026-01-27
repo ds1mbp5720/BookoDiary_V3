@@ -23,8 +23,8 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(
     private val getBookListPagingUseCase: GetBookListPagingUseCase,
     private val getAllMyBooksUseCase: GetAllMyBooksUseCase
-) : BaseViewModel<HomeScreenState, HomeScreenEvent, HomeScreenEffect>(
-    initialState = HomeScreenState()
+) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiEffect>(
+    initialState = HomeUiState()
 ) {
     val bookListDataItemNewAll: Flow<PagingData<BookModel>> = 
         getBookListPagingUseCase("ItemNewAll", 20).cachedIn(viewModelScope)
@@ -52,15 +52,15 @@ class HomeScreenViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     init {
-        onEvent(HomeScreenEvent.LoadMyBooks)
+        onEvent(HomeUiEvent.LoadMyBooks)
     }
 
-    override suspend fun reduce(event: HomeScreenEvent) {
+    override suspend fun reduce(event: HomeUiEvent) {
         when (event) {
-            is HomeScreenEvent.LoadCategoryPaging -> {
+            is HomeUiEvent.LoadCategoryPaging -> {
                 setState { copy(categoryQuery = event.queryType) }
             }
-            is HomeScreenEvent.LoadMyBooks -> {
+            is HomeUiEvent.LoadMyBooks -> {
                 loadMyBooks()
             }
             else -> {}
@@ -76,7 +76,7 @@ class HomeScreenViewModel @Inject constructor(
                     }
                     is LoadResult.Error -> {
                         setState { copy(isLoading = false) }
-                        sendEffect { HomeScreenEffect.ShowError(result.exception.message ?: "데이터 로드 실패") }
+                        sendEffect { HomeUiEffect.ShowError(result.exception.message ?: "데이터 로드 실패") }
                     }
                     is LoadResult.Loading -> {
                         setState { copy(isLoading = true) }

@@ -1,4 +1,4 @@
-package lee.project.presentation
+package lee.project.presentation.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
