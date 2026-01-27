@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.flow
 import lee.project.domain.offstore.model.OffStoreListModel
 import lee.project.domain.offstore.repository.OffStoreRepository
 import lee.project.domian.shared.LoadResult
+import javax.inject.Inject
 
-class GetOffStoreInfoUseCase(
+class GetOffStoreInfoUseCase @Inject constructor(
     private val offStoreRepository: OffStoreRepository
 ) {
     operator fun invoke(itemId: String): Flow<LoadResult<OffStoreListModel>> = flow {
