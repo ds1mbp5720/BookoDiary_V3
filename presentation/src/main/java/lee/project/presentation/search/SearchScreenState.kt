@@ -8,7 +8,6 @@ import lee.project.presentation.UiState
 data class SearchUiState(
     val query: TextFieldValue = TextFieldValue(""),
     val focused: Boolean = false,
-    val searching: Boolean = false,
     val searchHistory: List<String> = emptyList()
 ) : UiState
 

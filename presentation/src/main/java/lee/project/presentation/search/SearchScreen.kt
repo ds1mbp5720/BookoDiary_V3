@@ -56,7 +56,7 @@ fun Search(
     val searchBookList = viewModel.searchBookList.collectAsLazyPagingItems()
     val isNoResult = searchBookList.loadState.refresh is LoadState.NotLoading &&
             searchBookList.itemCount == 0
-
+    val isSearching = uiState.query.text.isNotEmpty() && searchBookList.loadState.refresh is LoadState.Loading
     var refreshingAction by remember { mutableStateOf(true) }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = searchBookList.loadState.refresh is LoadState.Loading,
@@ -117,7 +117,7 @@ fun Search(
                     searchFocused = uiState.focused || uiState.query.text.isNotEmpty(),
                     onSearchFocusChange = { viewModel.onEvent(SearchUiEvent.FocusChanged(it)) },
                     onClearQuery = { viewModel.onEvent(SearchUiEvent.QueryChanged(TextFieldValue(""))) },
-                    searching = uiState.searching,
+                    searching = isSearching,
                 )
 
                 BookDiaryDivider()
@@ -126,9 +126,9 @@ fun Search(
                     modifier = Modifier
                         .background(BookDiaryTheme.colors.uiBackground)
                         .fillMaxWidth()
-                        .height(if (uiState.searching) 90.dp else lerp(0.dp, 90.dp, pullRefreshState.progress.coerceIn(0f..1f)))
+                        .height(if (isSearching) 90.dp else lerp(0.dp, 90.dp, pullRefreshState.progress.coerceIn(0f..1f)))
                 ) {
-                    if (uiState.searching) {
+                    if (isSearching) {
                         CircularProgressIndicator(
                             color = BookDiaryTheme.colors.brand,
                             modifier = Modifier

@@ -32,9 +32,6 @@ class SearchViewModel @Inject constructor(
         .flatMapLatest { keyword ->
             getSearchBookListPagingUseCase(keyword, 20)
         }
-        .onEach {
-            setState { copy(searching = false) }
-        }
         .cachedIn(viewModelScope)
 
     init {
@@ -55,7 +52,6 @@ class SearchViewModel @Inject constructor(
                 setState { copy(focused = event.focused) }
             }
             is SearchUiEvent.Search -> {
-                setState { copy(searching = true) }
                 // 버튼 클릭 시점에만 검색 트리거 작동
                 _searchTrigger.emit(event.keyword)
                 viewModelScope.launch {
