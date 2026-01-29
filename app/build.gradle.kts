@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":data:book"))
     implementation(project(":data:offstore"))
+    implementation(project(":data:history"))
     implementation(project(":domain:book"))
     implementation(project(":domain:offstore"))
     implementation(project(":domain:history"))

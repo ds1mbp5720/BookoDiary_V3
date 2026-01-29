@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import lee.project.presentation.R
 import lee.project.presentation.theme.BookDiaryTheme
@@ -115,8 +116,6 @@ fun SearchBar(
                             .padding(horizontal = 6.dp)
                             .size(36.dp)
                     )
-                } else {
-                    Spacer(modifier = Modifier.width(48.dp))
                 }
             }
         }
@@ -140,6 +139,38 @@ fun SearchHint() {
         Text(
             text = stringResource(id = R.string.str_search_hint),
             color = BookDiaryTheme.colors.textHelp
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "기본 상태")
+@Composable
+fun PreSearchBar() {
+    BookDiaryTheme {
+        SearchBar(
+            query = TextFieldValue(""),
+            onQueryChange = {},
+            onSearch = {},
+            searchFocused = false,
+            onSearchFocusChange = {},
+            onClearQuery = {},
+            searching = false
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "입력 상태")
+@Composable
+fun PreSearchBarFocused() {
+    BookDiaryTheme {
+        SearchBar(
+            query = TextFieldValue("안드로이드"),
+            onQueryChange = {},
+            onSearch = {},
+            searchFocused = true,
+            onSearchFocusChange = {},
+            onClearQuery = {},
+            searching = false
         )
     }
 }

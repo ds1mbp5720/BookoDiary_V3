@@ -60,6 +60,7 @@ import lee.project.presentation.home.Home
 import lee.project.presentation.home.HomeListType
 import lee.project.presentation.home.SingleCategoryListScreen
 import lee.project.presentation.detail.BookDetail
+import lee.project.presentation.search.Search
 import lee.project.presentation.theme.BookDiaryTheme
 import java.util.Locale
 
@@ -102,15 +103,14 @@ fun NavGraphBuilder.addMainGraph(
             modifier = modifier
         )
     }
-    /*composable(MainSections.SEARCH.route) { from ->
+    composable(MainSections.SEARCH.route) { from ->
         Search(
             onBookClick = { id -> onBookSelected(id, from) },
             onNavigateToRoute = onNavigateToRoute,
             modifier = modifier,
-            viewModel = searchViewModel
         )
     }
-    composable(MainSections.RECORD.route) { from ->
+    /*composable(MainSections.RECORD.route) { from ->
         Record(
             onWishBookClick = { id -> onBookSelected(id, from) },
             onMyBookClick = { id -> onMyBookSelected(id, from) },
