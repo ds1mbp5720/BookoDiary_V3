@@ -60,6 +60,8 @@ import lee.project.presentation.home.Home
 import lee.project.presentation.home.HomeListType
 import lee.project.presentation.home.SingleCategoryListScreen
 import lee.project.presentation.detail.BookDetail
+import lee.project.presentation.record.Record
+import lee.project.presentation.record.RecordDetailScreen
 import lee.project.presentation.search.Search
 import lee.project.presentation.theme.BookDiaryTheme
 import java.util.Locale
@@ -110,16 +112,15 @@ fun NavGraphBuilder.addMainGraph(
             modifier = modifier,
         )
     }
-    /*composable(MainSections.RECORD.route) { from ->
+    composable(MainSections.RECORD.route) { from ->
         Record(
             onWishBookClick = { id -> onBookSelected(id, from) },
             onMyBookClick = { id -> onMyBookSelected(id, from) },
             onNavigateToRoute = onNavigateToRoute,
-            modifier = modifier,
-            viewModel = recordViewModel
+            modifier = modifier
         )
     }
-    composable(MainSections.AppInfo.route) { from ->
+    /*composable(MainSections.AppInfo.route) { from ->
         AppInfo(
             onManualClick = { onManualClick(from) },
             onSettingClick = { onSettingClick(from) },
@@ -163,16 +164,18 @@ fun NavGraphBuilder.bookDiaryNavGraph(
     // 책 기록 상세보기 화면
     composable(
         "${MainDestinations.MY_BOOK_DETAIL_ROOT}/{${MainDestinations.MY_BOOK_ID_KEY}}",
-        arguments = listOf(navArgument(MainDestinations.MY_BOOK_ID_KEY) {type = NavType.LongType} )
+        arguments = listOf(navArgument(MainDestinations.MY_BOOK_ID_KEY) { type = NavType.LongType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val myBookId = arguments.getLong(MainDestinations.MY_BOOK_ID_KEY)
-        //RecordDetailScreen(upPress = upPress, recordViewModel = recordViewModel)
+        RecordDetailScreen(bookId = myBookId, upPress = upPress)
     }
     // home 화면 한개 리스트 화면
     composable(
         "${MainDestinations.BOOK_LIST_ROOT}/{${MainDestinations.BOOK_LIST_TYPE}}",
-        arguments = listOf(navArgument(MainDestinations.BOOK_LIST_TYPE) { type = NavType.StringType })
+        arguments = listOf(navArgument(MainDestinations.BOOK_LIST_TYPE) {
+            type = NavType.StringType
+        })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val listType = arguments.getString(MainDestinations.BOOK_LIST_TYPE)

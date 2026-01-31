@@ -95,7 +95,7 @@ private fun SingleCategoryListPreview() {
     BookDiaryTheme {
         val books = flowOf(PagingData.from(listOf(
             BookModel(
-                itemId = "1",
+                itemId = 123,
                 title = "테스트 책 제목",
                 author = "테스트 작가",
                 cover = "",

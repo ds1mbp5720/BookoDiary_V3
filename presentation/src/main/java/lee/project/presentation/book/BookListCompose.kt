@@ -121,7 +121,7 @@ private fun BookItemListPreview() {
     BookDiaryTheme {
         BookItemList(
             book = BookModel(
-                itemId = "12345",
+                itemId = 12345,
                 title = "테스트 책 제목입니다. 제목이 길어지면 어떻게 보일까요?",
                 author = "홍길동 (지은이)",
                 cover = "",

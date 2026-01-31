@@ -67,7 +67,7 @@ import lee.project.presentation.util.mirroringIcon
 @Composable
 fun Home(
     onBookClick: (Long) -> Unit,
-    onMyBookClick: (String) -> Unit,
+    onMyBookClick: (Long) -> Unit,
     onListClick: (String) -> Unit,
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -137,7 +137,7 @@ private fun HomeScreenContent(
     blogBestFlow: Flow<PagingData<BookModel>>,
     onEvent: (HomeUiEvent) -> Unit,
     onBookClick: (Long) -> Unit,
-    onMyBookClick: (String) -> Unit,
+    onMyBookClick: (Long) -> Unit,
     onListClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -181,7 +181,7 @@ private fun HomeScreenContent(
 @Composable
 private fun RecordInfoView(
     myBookList: List<MyBookModel>,
-    onMyBookClick: (String) -> Unit,
+    onMyBookClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -287,7 +287,7 @@ private fun HomeScreenPreview() {
             state = HomeUiState(
                 myBookList = listOf(
                     MyBookModel(
-                        itemId = "1",
+                        itemId = 123,
                         title = "Preview Book 1",
                         author = "Author 1",
                         imageUrl = "",

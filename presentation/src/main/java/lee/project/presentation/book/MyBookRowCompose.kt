@@ -33,7 +33,7 @@ private val textWidth = 180.dp
 fun MyBookRowItem(
     modifier: Modifier = Modifier,
     myBook: MyBookModel,
-    onMyBookClick: (String) -> Unit
+    onMyBookClick: (Long) -> Unit
 ) {
     BookDiarySurface(
         color = Color.White,
@@ -93,7 +93,7 @@ private fun MyBookRowItemPreview() {
     BookDiaryTheme {
         MyBookRowItem(
             myBook = MyBookModel(
-                itemId = "1",
+                itemId = 1L,
                 title = "테스트 내 책 제목",
                 author = "작자미상",
                 imageUrl = "",

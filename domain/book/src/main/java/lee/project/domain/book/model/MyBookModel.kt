@@ -1,7 +1,7 @@
 package lee.project.domain.book.model
 
 data class MyBookModel(
-    val itemId: String,
+    val itemId: Long,
     val imageUrl: String, // 표지 이미지
     val title: String, // 상품명
     val author: String, // 저자

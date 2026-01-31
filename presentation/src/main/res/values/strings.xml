@@ -35,6 +35,10 @@
     <string name="str_no_detail">상세정보가 없습니다.</string>
     <string name="str_record_title">독후감</string>
 
+    <string name="str_wish_title">찜 목록 %s 권</string>
+    <string name="str_record_info_title">내 책 목록 %s 권</string>
+"
+
     <string name="str_btn_link">자세히 보기</string>
     <string name="str_btn_shop_inventory">재고 정보</string>
     <string name="str_btn_record">서랍에 저장</string>

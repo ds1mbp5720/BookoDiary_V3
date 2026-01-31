@@ -89,32 +89,33 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun BookDiaryTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colors = if(darkTheme) DarkColorPalette else LightColorPalette
+    val colors = if (darkTheme) DarkColorPalette else LightColorPalette
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = android.graphics.Color.TRANSPARENT
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = !darkTheme
+            }
         }
     }
 
     provideBookDiaryColors(colors = colors) {
         MaterialTheme(
-            colorScheme = debugColors(),
+            colorScheme = colorScheme,
             typography = Typography,
             shapes = Shapes,
             content = content

@@ -27,7 +27,7 @@ fun AladinResponse<BookDto>.toDomain(): BookListModel {
 
 fun BookDto.toDomain(): BookModel {
     return BookModel(
-        itemId = this.itemId,
+        itemId = this.itemId.toLong(),
         title = this.title,
         link = this.link,
         author = this.author,

@@ -140,7 +140,7 @@ private fun BookDetailContent(
                 insertWishBook = {
                     onWishBook(
                         WishBookModel(
-                            itemId = bookDetail.itemId ?: "0",
+                            itemId = bookDetail.itemId ?: 0,
                             imageUrl = bookDetail.cover ?: "",
                             title = bookDetail.title ?: "제목 없음",
                             addedAt = System.currentTimeMillis()
@@ -156,7 +156,7 @@ private fun BookDetailContent(
                 ) { review, period ->
                     onMyBook(
                         MyBookModel(
-                            itemId = bookDetail.itemId ?: "0",
+                            itemId = bookDetail.itemId ?: 0,
                             imageUrl = bookDetail.cover ?: "",
                             title = bookDetail.title ?: "제목 없음",
                             author = bookDetail.author ?: "저자 미확인",
@@ -507,7 +507,7 @@ private fun DetailBottomBar(
 @Composable
 private fun BookDetailPreview() {
     val dummyBook = BookModel(
-        itemId = "123",
+        itemId = 123,
         title = "테스트 도서 제목",
         author = "홍길동",
         cover = "",

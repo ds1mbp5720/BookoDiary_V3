@@ -6,7 +6,7 @@ data class BookListModel(
 )
 
 data class BookModel(
-    val itemId: String?,
+    val itemId: Long?,
     val title: String?,
     val link: String?,
     val author: String?,
