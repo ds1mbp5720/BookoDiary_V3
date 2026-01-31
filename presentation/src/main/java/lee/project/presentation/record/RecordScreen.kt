@@ -1,11 +1,11 @@
 package lee.project.presentation.record
 
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,8 +18,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -46,13 +46,13 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import lee.project.presentation.R
@@ -79,7 +79,6 @@ fun Record(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    // Effect 처리 (Toast 등)
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
@@ -105,11 +104,18 @@ fun Record(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BookDiaryTheme.colors.brandSecondary)
+            ) {
                 // 내 책 목록 섹션
                 BookRecordContent(
                     animationVisible = uiState.recordVisibleType == RecordType.MYBOOK,
-                    contentTitle = stringResource(id = R.string.str_record_info_title, uiState.myBookList.size),
+                    contentTitle = stringResource(
+                        id = R.string.str_record_info_title,
+                        uiState.myBookList.size
+                    ),
                     books = uiState.myBookList.mapperMyBookToBasicBookRecordList().filter {
                         it.title.contains(uiState.query.text)
                     },
@@ -120,13 +126,18 @@ fun Record(
                     onBookDeleteSwipe = { id ->
                         viewModel.onEvent(RecordUiEvent.DeleteMyBook(id))
                     },
-                    modifier = modifier.background(BookDiaryTheme.colors.brandSecondary)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zIndex(if (uiState.recordVisibleType == RecordType.MYBOOK) 1f else 0f)
                 )
 
                 // 찜 목록 섹션
                 BookRecordContent(
                     animationVisible = uiState.recordVisibleType == RecordType.WISH,
-                    contentTitle = stringResource(id = R.string.str_wish_title, uiState.wishBookList.size),
+                    contentTitle = stringResource(
+                        id = R.string.str_wish_title,
+                        uiState.wishBookList.size
+                    ),
                     books = uiState.wishBookList.mapperWishBookToBasicBookRecordList().filter {
                         it.title.contains(uiState.query.text)
                     },
@@ -134,30 +145,38 @@ fun Record(
                     onBookDeleteSwipe = { id ->
                         viewModel.onEvent(RecordUiEvent.DeleteWishBook(id))
                     },
-                    modifier = modifier.background(BookDiaryTheme.colors.brandSecondary)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zIndex(if (uiState.recordVisibleType == RecordType.WISH) 1f else 0f)
                 )
 
                 SearchBar(
                     query = uiState.query,
                     onQueryChange = { viewModel.onEvent(RecordUiEvent.QueryChanged(it)) },
-                    onSearch = { /* 검색 로직 (상시 필터링 중) */ },
+                    onSearch = { },
                     searchFocused = uiState.focused || uiState.query.text.isNotEmpty(),
                     onSearchFocusChange = { viewModel.onEvent(RecordUiEvent.FocusChanged(it)) },
                     onClearQuery = { viewModel.onEvent(RecordUiEvent.ClearQuery) },
                     searching = uiState.searching,
-                    modifier = Modifier.align(Alignment.TopCenter)
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .zIndex(2f)
                 )
 
-                BookDiaryDivider(modifier = Modifier.padding(top = 56.dp))
+                BookDiaryDivider(modifier = Modifier
+                    .padding(top = 56.dp)
+                    .zIndex(2f))
 
                 SwipeContentButton(
                     contentType = uiState.recordVisibleType,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
-                        .padding(horizontal = 30.dp, vertical = 70.dp),
+                        .padding(horizontal = 30.dp, vertical = 70.dp)
+                        .zIndex(2f),
                     onClick = {
-                        val nextType = if (uiState.recordVisibleType == RecordType.MYBOOK) RecordType.WISH else RecordType.MYBOOK
+                        val nextType =
+                            if (uiState.recordVisibleType == RecordType.MYBOOK) RecordType.WISH else RecordType.MYBOOK
                         viewModel.onEvent(RecordUiEvent.ChangeRecordType(nextType))
                     }
                 )
@@ -203,40 +222,53 @@ fun BookRecordContent(
     onBookDeleteSwipe: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedVisibility(
-        visible = animationVisible,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { it })
+    val offsetY by animateDpAsState(
+        targetValue = if (animationVisible) 0.dp else 540.dp,
+        animationSpec = spring(stiffness = Spring.StiffnessLow),
+        label = "offsetY"
+    )
+    val alpha by animateFloatAsState(
+        targetValue = if (animationVisible) 1f else 0.9f,
+        label = "alpha"
+    )
+
+    Box(
+        modifier = modifier
+            .padding(top = 60.dp)
+            .offset(y = offsetY)
+            .graphicsLayer(alpha = alpha)
     ) {
-        Box(modifier = modifier.padding(top = 60.dp)) {
-            MyRecordDivider(modifier = Modifier.fillMaxWidth())
-            if (!books.isNullOrEmpty()) {
-                BookRecordRow(
-                    books = books,
-                    onBookClick = onBookClick,
-                    onBookDeleteSwipe = onBookDeleteSwipe
-                )
-            } else {
-                Spacer(modifier = Modifier.height(540.dp))
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(start = 24.dp)
-                    .background(color = Color.White)
-                    .border(width = 1.dp, color = BookDiaryTheme.colors.brand)
-            ) {
-                Text(
-                    text = contentTitle,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = BookDiaryTheme.colors.brand,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.width(160.dp).padding(start = 16.dp)
-                )
-            }
-            MyRecordDivider(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth())
+        MyRecordDivider(modifier = Modifier.fillMaxWidth())
+        if (!books.isNullOrEmpty()) {
+            BookRecordRow(
+                books = books,
+                onBookClick = onBookClick,
+                onBookDeleteSwipe = onBookDeleteSwipe
+            )
+        } else {
+            Spacer(modifier = Modifier.height(540.dp))
         }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(start = 24.dp)
+                .background(color = Color.White)
+                .border(width = 1.dp, color = BookDiaryTheme.colors.brand)
+        ) {
+            Text(
+                text = contentTitle,
+                style = MaterialTheme.typography.titleLarge,
+                color = BookDiaryTheme.colors.brand,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .width(160.dp)
+                    .padding(start = 16.dp)
+            )
+        }
+        MyRecordDivider(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth())
     }
 }
 
@@ -273,10 +305,17 @@ fun BookRecordRow(
                         label = ""
                     )
                     Box(
-                        Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp),
+                        Modifier
+                            .fillMaxSize()
+                            .background(color)
+                            .padding(horizontal = 20.dp),
                         contentAlignment = Alignment.CenterEnd
                     ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete", modifier = Modifier.scale(if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f))
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            modifier = Modifier.scale(if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f)
+                        )
                     }
                 }
             ) {
