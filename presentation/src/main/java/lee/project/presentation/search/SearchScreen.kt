@@ -77,6 +77,9 @@ fun Search(
                 is SearchUiEffect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
+                is SearchUiEffect.NavigateToBookDetail -> {
+                    onBookClick(effect.bookId)
+                }
             }
         }
     }
@@ -144,7 +147,9 @@ fun Search(
                 if (uiState.query.text.isNotEmpty()) {
                     SearchResultScreen(
                         books = searchBookList,
-                        onBookClick = onBookClick,
+                        onBookClick = {
+                            viewModel.onEvent(SearchUiEvent.ClickBookItem(it))
+                        },
                         searchResult = isNoResult,
                         resetSearchState = {
                             viewModel.onEvent(SearchUiEvent.QueryChanged(TextFieldValue("")))

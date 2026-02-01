@@ -70,8 +70,8 @@ import lee.project.presentation.util.textChangeVertical
 
 @Composable
 fun Record(
-    onWishBookClick: (Long) -> Unit,
     onMyBookClick: (Long) -> Unit,
+    onWishBookClick: (Long) -> Unit,
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RecordViewModel = hiltViewModel()
@@ -84,6 +84,12 @@ fun Record(
             when (effect) {
                 is RecordUiEffect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+                is RecordUiEffect.NavigateToMyBookDetail -> {
+                    onMyBookClick(effect.bookId)
+                }
+                is RecordUiEffect.NavigateToWishBookDetail -> {
+                    onWishBookClick(effect.bookId)
                 }
             }
         }
@@ -112,42 +118,33 @@ fun Record(
                 // 내 책 목록 섹션
                 BookRecordContent(
                     animationVisible = uiState.recordVisibleType == RecordType.MYBOOK,
-                    contentTitle = stringResource(
-                        id = R.string.str_record_info_title,
-                        uiState.myBookList.size
-                    ),
+                    contentTitle = stringResource(id = R.string.str_record_info_title, uiState.myBookList.size),
                     books = uiState.myBookList.mapperMyBookToBasicBookRecordList().filter {
                         it.title.contains(uiState.query.text)
                     },
-                    onBookClick = { bookId ->
-                        onMyBookClick(bookId)
-                        viewModel.onEvent(RecordUiEvent.FindMyBook(bookId))
+                    onBookClick = { id ->
+                        viewModel.onEvent(RecordUiEvent.FindMyBook(id))
                     },
                     onBookDeleteSwipe = { id ->
                         viewModel.onEvent(RecordUiEvent.DeleteMyBook(id))
                     },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .zIndex(if (uiState.recordVisibleType == RecordType.MYBOOK) 1f else 0f)
+                    modifier = Modifier.fillMaxSize().zIndex(if (uiState.recordVisibleType == RecordType.MYBOOK) 1f else 0f)
                 )
 
                 // 찜 목록 섹션
                 BookRecordContent(
                     animationVisible = uiState.recordVisibleType == RecordType.WISH,
-                    contentTitle = stringResource(
-                        id = R.string.str_wish_title,
-                        uiState.wishBookList.size
-                    ),
+                    contentTitle = stringResource(id = R.string.str_wish_title, uiState.wishBookList.size),
                     books = uiState.wishBookList.mapperWishBookToBasicBookRecordList().filter {
                         it.title.contains(uiState.query.text)
                     },
-                    onBookClick = onWishBookClick,
+                    onBookClick = { id ->
+                        viewModel.onEvent(RecordUiEvent.ClickWishBook(id))
+                    },
                     onBookDeleteSwipe = { id ->
                         viewModel.onEvent(RecordUiEvent.DeleteWishBook(id))
                     },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .zIndex(if (uiState.recordVisibleType == RecordType.WISH) 1f else 0f)
+                    modifier = Modifier.fillMaxSize().zIndex(if (uiState.recordVisibleType == RecordType.WISH) 1f else 0f)
                 )
 
                 SearchBar(
@@ -158,14 +155,10 @@ fun Record(
                     onSearchFocusChange = { viewModel.onEvent(RecordUiEvent.FocusChanged(it)) },
                     onClearQuery = { viewModel.onEvent(RecordUiEvent.ClearQuery) },
                     searching = uiState.searching,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .zIndex(2f)
+                    modifier = Modifier.align(Alignment.TopCenter).zIndex(2f)
                 )
 
-                BookDiaryDivider(modifier = Modifier
-                    .padding(top = 56.dp)
-                    .zIndex(2f))
+                BookDiaryDivider(modifier = Modifier.padding(top = 56.dp).zIndex(2f))
 
                 SwipeContentButton(
                     contentType = uiState.recordVisibleType,
@@ -175,8 +168,7 @@ fun Record(
                         .padding(horizontal = 30.dp, vertical = 70.dp)
                         .zIndex(2f),
                     onClick = {
-                        val nextType =
-                            if (uiState.recordVisibleType == RecordType.MYBOOK) RecordType.WISH else RecordType.MYBOOK
+                        val nextType = if (uiState.recordVisibleType == RecordType.MYBOOK) RecordType.WISH else RecordType.MYBOOK
                         viewModel.onEvent(RecordUiEvent.ChangeRecordType(nextType))
                     }
                 )
@@ -261,14 +253,10 @@ fun BookRecordContent(
                 color = BookDiaryTheme.colors.brand,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .width(160.dp)
-                    .padding(start = 16.dp)
+                modifier = Modifier.width(160.dp).padding(start = 16.dp)
             )
         }
-        MyRecordDivider(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth())
+        MyRecordDivider(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth())
     }
 }
 
@@ -305,17 +293,10 @@ fun BookRecordRow(
                         label = ""
                     )
                     Box(
-                        Modifier
-                            .fillMaxSize()
-                            .background(color)
-                            .padding(horizontal = 20.dp),
+                        Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp),
                         contentAlignment = Alignment.CenterEnd
                     ) {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = "Delete",
-                            modifier = Modifier.scale(if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f)
-                        )
+                        Icon(Icons.Default.Delete, contentDescription = "Delete", modifier = Modifier.scale(if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f))
                     }
                 }
             ) {

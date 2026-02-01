@@ -68,6 +68,9 @@ class SearchViewModel @Inject constructor(
                     clearSearchHistoryUseCase()
                 }
             }
+            is SearchUiEvent.ClickBookItem -> {
+                sendEffect { SearchUiEffect.NavigateToBookDetail(event.bookId) }
+            }
         }
     }
 }

@@ -63,6 +63,12 @@ class HomeScreenViewModel @Inject constructor(
             is HomeUiEvent.LoadMyBooks -> {
                 loadMyBooks()
             }
+            is HomeUiEvent.ClickMyBook -> {
+                sendEffect { HomeUiEffect.NavigateToMyBookDetail(event.bookId) }
+            }
+            is HomeUiEvent.ClickBookItem -> {
+                sendEffect { HomeUiEffect.NavigateToBookDetail(event.bookId) }
+            }
             else -> {}
         }
     }

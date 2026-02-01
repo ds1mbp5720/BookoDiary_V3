@@ -13,9 +13,13 @@ data class HomeUiState(
 
 sealed class HomeUiEvent : UiEvent {
     data class LoadCategoryPaging(val queryType: String, val size: Int = 20) : HomeUiEvent()
+    data class ClickMyBook(val bookId: Long) : HomeUiEvent()
+    data class ClickBookItem(val bookId: Long) : HomeUiEvent()
     object LoadMyBooks : HomeUiEvent()
 }
 
 sealed class HomeUiEffect : UiEffect {
     data class ShowError(val message: String) : HomeUiEffect()
+    data class NavigateToMyBookDetail(val bookId: Long) : HomeUiEffect()
+    data class NavigateToBookDetail(val bookId: Long) : HomeUiEffect()
 }

@@ -84,6 +84,14 @@ fun Home(
                 is HomeUiEffect.ShowError -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
+
+                is HomeUiEffect.NavigateToBookDetail -> {
+                    onBookClick(effect.bookId)
+                }
+
+                is HomeUiEffect.NavigateToMyBookDetail -> {
+                    onMyBookClick(effect.bookId)
+                }
             }
         }
     }
@@ -105,8 +113,12 @@ fun Home(
             bestsellerFlow = viewModel.bookListDataBestseller,
             blogBestFlow = viewModel.bookListDataBlogBest,
             onEvent = viewModel::onEvent,
-            onBookClick = onBookClick,
-            onMyBookClick = onMyBookClick,
+            onBookClick = {
+                viewModel.onEvent(HomeUiEvent.ClickBookItem(it))
+            },
+            onMyBookClick = {
+                viewModel.onEvent(HomeUiEvent.ClickMyBook(it))
+            },
             onListClick = onListClick,
             modifier = Modifier.padding(paddingValues)
         )
@@ -160,15 +172,33 @@ private fun HomeScreenContent(
                 )
             }
             item {
-                BookRowSection(HomeListType.ItemNewAll, itemNewAll, onBookClick, onListClick, onEvent)
+                BookRowSection(
+                    HomeListType.ItemNewAll,
+                    itemNewAll,
+                    onBookClick,
+                    onListClick,
+                    onEvent
+                )
                 BookDiaryDivider(thickness = 2.dp)
             }
             item {
-                BookRowSection(HomeListType.ItemNewSpecial, itemNewSpecial, onBookClick, onListClick, onEvent)
+                BookRowSection(
+                    HomeListType.ItemNewSpecial,
+                    itemNewSpecial,
+                    onBookClick,
+                    onListClick,
+                    onEvent
+                )
                 BookDiaryDivider(thickness = 2.dp)
             }
             item {
-                BookRowSection(HomeListType.Bestseller, bestseller, onBookClick, onListClick, onEvent)
+                BookRowSection(
+                    HomeListType.Bestseller,
+                    bestseller,
+                    onBookClick,
+                    onListClick,
+                    onEvent
+                )
                 BookDiaryDivider(thickness = 2.dp)
             }
             item {

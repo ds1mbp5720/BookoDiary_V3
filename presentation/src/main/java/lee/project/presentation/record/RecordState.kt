@@ -28,6 +28,8 @@ sealed interface RecordUiEvent : UiEvent {
     data class QueryChanged(val query: TextFieldValue) : RecordUiEvent
     data class FocusChanged(val focused: Boolean) : RecordUiEvent
     data class FindMyBook(val bookId: Long) : RecordUiEvent
+    data class ClickWishBook(val bookId: Long) : RecordUiEvent
+    data class ClickMyBook(val bookId: Long) : RecordUiEvent
     data class DeleteMyBook(val bookId: Long) : RecordUiEvent
     data class DeleteWishBook(val bookId: Long) : RecordUiEvent
     object ClearQuery : RecordUiEvent
@@ -35,4 +37,6 @@ sealed interface RecordUiEvent : UiEvent {
 
 sealed interface RecordUiEffect : UiEffect {
     data class ShowToast(val message: String) : RecordUiEffect
+    data class NavigateToMyBookDetail(val bookId: Long) : RecordUiEffect
+    data class NavigateToWishBookDetail(val bookId: Long) : RecordUiEffect
 }

@@ -43,6 +43,14 @@ class RecordViewModel @Inject constructor(
             is RecordUiEvent.FindMyBook -> {
                 val book = uiState.value.myBookList.find { it.itemId == event.bookId }
                 setState { copy(myBookDetail = book) }
+                // 기록 상세 화면 이동 효과 전송
+                sendEffect { RecordUiEffect.NavigateToMyBookDetail(event.bookId) }
+            }
+            is RecordUiEvent.ClickWishBook -> {
+                sendEffect { RecordUiEffect.NavigateToWishBookDetail(event.bookId) }
+            }
+            is RecordUiEvent.ClickMyBook -> {
+                sendEffect { RecordUiEffect.NavigateToWishBookDetail(event.bookId) }
             }
             is RecordUiEvent.DeleteMyBook -> {
                 deleteMyBook(event.bookId)
@@ -88,7 +96,7 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch {
             val result = deleteMyBookUseCase(bookId.toString())
             if (result is LoadResult.Error) {
-                sendEffect { RecordUiEffect.ShowToast(result.exception.message ?: "삭제 실패") }
+                sendEffect { RecordUiEffect.ShowToast("삭제 실패") }
             }
         }
     }
@@ -97,7 +105,7 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch {
             val result = deleteWishBookUseCase(bookId.toString())
             if (result is LoadResult.Error) {
-                sendEffect { RecordUiEffect.ShowToast(result.exception.message ?: "삭제 실패") }
+                sendEffect { RecordUiEffect.ShowToast("삭제 실패") }
             }
         }
     }
